@@ -13,8 +13,7 @@ const LoginPage = () => {
     }
   };
 
- 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     let EnteredEmail = EmailUser.current.value;
@@ -29,8 +28,8 @@ const LoginPage = () => {
     if (isLogin) {
       //.....
     } else {
-      fetch(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI',
+      const Response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI",
         {
           method: "POST",
           body: JSON.stringify(UserDetails),
@@ -38,18 +37,15 @@ const LoginPage = () => {
             "Content-Type": "application/json",
           },
         }
-      ).then((Response) => {
-        if (Response.ok) {
-          console.log("Data Send SuccessFul !!");
-          EmailUser.current.value = "";
-          PasswordUser.current.value = "";
-        } else {
-          return Response.json().then((data) => {
-            // Handle Error Modal
-            console.log("Return Data", data);
-          });
-        }
-      });
+      );
+      if (Response.ok) {
+        console.log("Data Send SuccessFul !!");
+        EmailUser.current.value = "";
+        PasswordUser.current.value = "";
+      } else {
+        const Data = await Response.json();
+        console.log("Return Data", Data);
+      }
     }
   };
 

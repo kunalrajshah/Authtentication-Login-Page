@@ -38,7 +38,7 @@ const Profile = () => {
         throw new Error(errMessage);
       }
     } catch (err) {
-      console.log(err.message);
+      alert(err.message)
     }
   };
   return (

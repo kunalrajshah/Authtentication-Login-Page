@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import "./Navbar.css";
 import AuthContext from "../Store/AuthContext";
 
 const Navbar = () => {
   const AuthCtxt = useContext(AuthContext);
+ 
+  const LogOutHandler=()=>{
+    AuthCtxt.Logout();
+  }
   return (
     <nav className="bg-lightblue p-4 flex justify-between items-center bg-blue-600">
       <div className="text-2xl font-semibold text-white">ReactAuth</div>
@@ -29,7 +33,7 @@ const Navbar = () => {
               href="#"
               className="border p-2 rounded-md nav-link hover:bg-green-400 hover:font-semibold hover:text-black"
             >
-              <NavLink to="/" onClick={()=>AuthCtxt.Logout()}>Logout</NavLink>
+              <NavLink to="/login" onClick={LogOutHandler}>Logout</NavLink>
             </a>
           </li>
         )}

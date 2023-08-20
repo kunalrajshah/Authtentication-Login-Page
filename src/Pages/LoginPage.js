@@ -1,8 +1,10 @@
 import React, { useState, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../Components/Store/AuthContext";
 
 const LoginPage = () => {
   const AuthCtxt = useContext(AuthContext);
+  const navigate=useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +53,7 @@ const LoginPage = () => {
       if (Response.ok) {
         const Data = await Response.json();
         AuthCtxt.Login(Data.idToken); //Seting token here.
+        navigate("/");
         EmailUser.current.value = "";
         PasswordUser.current.value = "";
       } else {

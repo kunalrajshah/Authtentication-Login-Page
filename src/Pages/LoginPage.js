@@ -1,7 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import AuthContext from "../Components/Store/AuthContext";
 
 const LoginPage = () => {
+  const AuthCtxt = useContext(AuthContext);
+
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const EmailUser = useRef("");
   const PasswordUser = useRef("");
 
@@ -25,27 +29,40 @@ const LoginPage = () => {
       returnSecureToken: true,
     };
 
+    setIsLoading(true);
+    // Fetching DATA
+    let URL;
     if (isLogin) {
-      //.....
+      URL =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI";
     } else {
-      const Response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI",
-        {
-          method: "POST",
-          body: JSON.stringify(UserDetails),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      URL =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI";
+    }
+    try {
+      const Response = await fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(UserDetails),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setIsLoading(false);
       if (Response.ok) {
-        console.log("Data Send SuccessFul !!");
+        const Data = await Response.json();
+        AuthCtxt.Login(Data.idToken); //Seting token here.
         EmailUser.current.value = "";
         PasswordUser.current.value = "";
       } else {
         const Data = await Response.json();
-        console.log("Return Data", Data);
+        let errMessage = "Authentication Failed !";
+        if (Data && Data.error && Data.error.message) {
+          errMessage = Data.error.message;
+        }
+        throw new Error(errMessage);
       }
+    } catch (err) {
+      alert(err.message);
     }
   };
 
@@ -74,12 +91,19 @@ const LoginPage = () => {
               ref={PasswordUser}
             />
           </div>
-          <button
-            type="Submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring"
-          >
-            {isLogin ? "Login" : "Create Account"}
-          </button>
+          {!isLoading && (
+            <button
+              type="Submit"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring"
+            >
+              {isLogin ? "Login" : "Create Account"}
+            </button>
+          )}
+          {isLoading && (
+            <p className="text-center text-xl text-red-600 font-semibold">
+              Sending Request ....
+            </p>
+          )}
         </form>
         <div className="text-center mt-2">
           <button

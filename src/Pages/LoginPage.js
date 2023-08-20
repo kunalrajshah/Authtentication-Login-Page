@@ -1,8 +1,9 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../Components/Store/AuthContext";
 
 const LoginPage = () => {
+
   const AuthCtxt = useContext(AuthContext);
   const navigate=useNavigate();
 

@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import AuthContext from "./AuthContext";
 
 const AuthContextprovider = (props) => {
-  const[Token,setToken]=useState(null);
+  const initialToken=localStorage.getItem("Token");
+  const[Token,setToken]=useState(initialToken);
   const userIsLoggedIn=!!Token;  // The !! is a shorthand way to convert a value to a boolean.if token is empty then userIsLoggedIn is false.
 
   const LoginHandler=(token)=>{
-    setToken(token)
+    setToken(token);
+    localStorage.setItem("Token",token);
   }
 
   const LogOutHandler=()=>{
-    setToken(null)
+    setToken(null);
+    localStorage.removeItem('Token');
   }
 
   const ContextValue={

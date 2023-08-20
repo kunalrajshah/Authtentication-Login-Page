@@ -8,6 +8,7 @@ const Navbar = () => {
  
   const LogOutHandler=()=>{
     AuthCtxt.Logout();
+    localStorage.clear();
   }
   return (
     <nav className="bg-lightblue p-4 flex justify-between items-center bg-blue-600">

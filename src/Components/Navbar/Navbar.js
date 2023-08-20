@@ -18,7 +18,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="#" className="border p-2 rounded-md nav-link">
+          <a href="#" className="border p-2 rounded-md nav-link hover:bg-green-400 hover:font-semibold hover:text-black">
           <NavLink to="/">Logout</NavLink>
           </a>
         </li>

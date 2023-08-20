@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 const Profile = () => {
   return (
     <Fragment>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className=" flex items-center justify-center mt-40">
         <div className="bg-white p-8 rounded shadow-md w-96">
           <h1 className="text-2xl font-semibold text-center mb-4">
             Your User Profile

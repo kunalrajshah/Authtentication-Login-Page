@@ -4,6 +4,7 @@ import AuthContext from "../Components/Store/AuthContext";
 const Profile = () => {
   const newPassword = useRef("");
   const AuthCtxt = useContext(AuthContext);
+  const apikey=process.env.REACT_APP_API_KEY;
 
   const SubmitHandler = async (event) => {
     event.preventDefault();
@@ -11,7 +12,7 @@ const Profile = () => {
 
     try {
       const Response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI",
+        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apikey}`,
         {
           method: "POST",
           body: JSON.stringify({

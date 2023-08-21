@@ -1,11 +1,10 @@
-import React, { useState, useRef, useContext} from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../Components/Store/AuthContext";
 
 const LoginPage = () => {
-
   const AuthCtxt = useContext(AuthContext);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,16 +30,17 @@ const LoginPage = () => {
       password: EnteredPassword,
       returnSecureToken: true,
     };
+    const apikey=process.env.REACT_APP_API_KEY;
 
     setIsLoading(true);
     // Fetching DATA
     let URL;
     if (isLogin) {
       URL =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI";
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apikey}`;
     } else {
       URL =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBOXHgDlb77PEn3G_YXmJvzMx620ExFDuI";
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apikey}`;
     }
     try {
       const Response = await fetch(URL, {
@@ -69,6 +69,7 @@ const LoginPage = () => {
       alert(err.message);
     }
   };
+
 
   return (
     <div className="mt-40 flex items-center justify-center">
